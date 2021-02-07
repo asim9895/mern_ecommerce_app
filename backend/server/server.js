@@ -1,5 +1,6 @@
 const express = require('express');
 const product = require('../routes/products');
+const user = require('../routes/user');
 const connectDb = require('../database/mongodb');
 const { notFound, errorHandler } = require('../middleware/errorMiddleware');
 
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('', product);
+app.use('/api', user);
 
 app.use(notFound);
 app.use(errorHandler);
