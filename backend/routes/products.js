@@ -1,24 +1,32 @@
 const express = require('express');
 const router = express.Router();
-const products = require('../data/products');
 
-router.get('/api/products', async (req, res) => {
-  try {
-    res.json(products);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send('server error');
-  }
-});
+const Product = require('../models/Product');
+const asyncHandler = require('express-async-handler');
 
-router.get('/api/products/:id', async (req, res) => {
-  try {
-    const product = products.find((product) => product._id === req.params.id);
-    res.json(product);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send('server error');
-  }
-});
+router.get(
+  '/api/products',
+  asyncHandler(async (req, res) => {
+    const products = await Product.find({});
+    if (products) {
+      res.json(products);
+    } else {
+      res.json({ message: 'Products Not Found' });
+    }
+  })
+);
+
+router.get(
+  '/api/products/:id',
+  asyncHandler(async (req, res) => {
+    const product = await Product.findById(req.param.id);
+
+    if (product) {
+      res.json(product);
+    } else {
+      res.json({ message: 'Product Not Found' });
+    }
+  })
+);
 
 module.exports = router;
