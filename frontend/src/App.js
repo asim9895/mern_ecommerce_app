@@ -4,6 +4,7 @@ import { Container } from 'react-bootstrap';
 import { Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import ProductDetails from './pages/ProductDetails';
+import Cart from './pages/Cart';
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Switch>
           <Route path='/' component={Home} exact />
           <Route path='/product/:id' component={ProductDetails} />
+          <Route path='/cart/:id?' component={Cart} />
         </Switch>
       </Container>
       <Footer />

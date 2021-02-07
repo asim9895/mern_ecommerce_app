@@ -19,7 +19,7 @@ router.get(
 router.get(
   '/api/products/:id',
   asyncHandler(async (req, res) => {
-    const product = await Product.findById(req.param.id);
+    const product = await Product.findById(req.params.id);
 
     if (product) {
       res.json(product);
