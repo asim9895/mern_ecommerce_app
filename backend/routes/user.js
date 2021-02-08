@@ -74,4 +74,29 @@ router.get(
   })
 );
 
+router.put(
+  '/user/profile',
+  protect,
+  asyncHandler(async (req, res) => {
+    let user = await User.findById(req.user._id);
+
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
+
+      if (req.body.password) {
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(req.body.password, salt);
+      }
+      user.password = user.password;
+
+      await user.save();
+
+      res.json('Success');
+    } else {
+      throw new Error('User Not Found');
+    }
+  })
+);
+
 module.exports = router;
